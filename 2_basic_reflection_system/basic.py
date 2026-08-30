@@ -31,17 +31,17 @@ def reflect_node(state):
     return [HumanMessage(content = response)]
 
 
-graph.add_node(GENERATE, generate_node)
-graph.add_node(REFLECT, reflect_node)
-
-graph.set_entry_point(GENERATE)
-
 def should_continue(state):
     if len(state)>2:
         return END
     else:
-        return REFLECT    
+        return REFLECT   
+    
 
+graph.add_node(GENERATE, generate_node)
+graph.add_node(REFLECT, reflect_node)
+
+graph.set_entry_point(GENERATE)
 
 graph.add_conditional_edges(GENERATE, should_continue)
 graph.add_edge(REFLECT, GENERATE)
@@ -55,3 +55,5 @@ app.get_graph().print_ascii()
 
 
 response = app.invoke(HumanMessage(content = "AI Agents taking over the content creation"))
+
+print(response)
